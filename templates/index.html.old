@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" type="text/css" href="{{ url_for('static',filename ='style.css') }}">
+    <title>Login - Register Form | Flask</title>
+    <h1>Login to Ecommerce site </span></h1>
+
+    
+</head>
+<body>
+    <div class="container">
+        <!--<div class="row" style="margin-top: 40px">-->
+            
+                
+                <div id="wrapper">
+                <div id="login" class="animate form"></div>
+                <h1>Log in</h1> 
+                                <p> 
+                                    <label for="username" class="uname" data-icon="u" > Your email or username </label>
+                                    <input id="username" name="username" required="required" type="text" placeholder="myusername or mymail@mail.com"/>
+                                </p>
+                                <p> 
+                                    <label for="password" class="youpasswd" data-icon="p"> Your password </label>
+                                    <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" /> 
+                                </p>
+                                <p class="keeplogin"> 
+									<input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping" /> 
+									<label for="loginkeeping">Keep me logged in</label>
+								</p>
+                                <p class="login button"> 
+                                    <input type="submit" value="Login" /> 
+								</p>
+                                <p class="change_link">
+									Not a member yet ?
+									<a href="/register" class="to_register">Join us</a>
+                    
+                    <!--<a href="/login" class="btn form-control btn-success">Login</a><br><br>-->
+                    <a href="/register" class="btn form-control btn-primary">Register</a>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+</body>
+</html>
+

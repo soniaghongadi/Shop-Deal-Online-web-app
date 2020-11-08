@@ -1,42 +1,64 @@
 <!DOCTYPE html>
-<html lang = "en">
-   <head></head>
-   <body>
-      
-      <h3>
-         <a href = "{{ url_for('show_all') }}">Comments - Flask 
-            SQLAlchemy example</a>
-      </h3>
-      
-      <hr/>
-      {%- for message in get_flashed_messages() %}
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename ='style_new.css') }}">
+   <title>Show All products</title>
+</head>
+
+<body>
+
+   <div class="topnav">
+      <a href="{{ url_for('addproduct') }}">Add Your Ad</a>>
+         {% if user %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+         {% else %}
+            <a href="{{ url_for('index') }}">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
+         {% endif %}
+
+   </div>
+   <a href="{{ url_for('show_all') }}">Available products </a>
+
+   <hr />
+   {%- for message in get_flashed_messages() %}
          {{ message }}
       {%- endfor %}
-		
-      <h3>Students (<a href = "{{ url_for('new') }}">Add Student
-         </a>)</h3>
-      
-      <table>
-         <thead>
-            <tr>
-               <th>Name</th>
-               <th>City</th>
-               <th>Address</th>
-               <th>Pin</th>
-            </tr>
-         </thead>
-         
-         <tbody>
-            {% for student in students %}
-               <tr>
-                  <td>{{ student.name }}</td>
-                  <td>{{ student.city }}</td>
-                  <td>{{ student.addr }}</td>
-                  <td>{{ student.pin }}</td>
-               </tr>
-            {% endfor %}
-         </tbody>
-      </table>
-      
-   </body>
+
+   <table>
+      <thead>
+         <tr>
+            <th>Product Type/Name</th>
+            <th>Price of Product</th>
+            <th>Product Details</th>
+            <th>Product Images</th>
+            <th>Seller Name</th>
+            <th>Seller's Email ID</th>
+            <th>Seller's Contact Number</th>
+         </tr>
+      </thead>
+
+      <tbody>
+         {% for products in Product %}
+         <tr>
+            <td>{{ products.Product_name}}</td>
+            <td>{{ products.Product_price}}</td>
+            <td>{{ products.Prod_spec}}</td>
+            <td>{{ products.image_file }}</td>
+            <td>{{ products.seller_name}}</td>
+            <td>{{ products.User_email }}</td>
+            <td>{{ products.contact_num }}</td>
+         </tr>
+
+         <h3>
+            <h2><a href="{{ url_for('idv_prod', Product_id= products.id ) }}">{{ products.Product_name}}</a></h2>
+         </h3>
+         {% endfor %}
+      </tbody>
+   </table>
+
+</body>
+
 </html>

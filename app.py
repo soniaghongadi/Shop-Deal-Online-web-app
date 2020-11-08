@@ -22,8 +22,8 @@ def __init__(self, name, city, addr,pin):
    self.pin = pin
 
 @app.route('/')
-def show_all():
-   return render_template('show_all.html', students = students.query.all() )
+def show_all1():
+   return render_template('show_all1.html', students = students.query.all() )
 
 @app.route('/new', methods = ['GET', 'POST'])
 def new():
@@ -37,7 +37,7 @@ def new():
          db.session.add(student)
          db.session.commit()
          flash('Record was successfully added')
-         return redirect(url_for('show_all'))
+         return redirect(url_for('show_all1'))
    return render_template('new.html')
 
 if __name__ == '__main__':

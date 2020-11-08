@@ -1,9 +1,10 @@
 body {
-    background-color: azure;
     text-align: center;
     background-image: url("online_store.png");
     background-size: 2000px 900px;
     font-family: Arial,Helvetica,sans-serif;
+    max-width: 100%;
+    max-height: 100%;
 }
   
   table{
@@ -14,10 +15,10 @@ body {
   
   label{
       color: white;
-      width:100%;
+      widows: 50%;
   }
   input{
-      width:100%;
+      width:50%;
   
   }
   
@@ -107,7 +108,8 @@ body {
 	min-height: 560px;	
 	margin: 0px auto;	
 	width: 500px;
-	position: relative;	
+  position: relative;	
+  border: rgb(10, 0, 0);
 }
 
 #wrapper h1{

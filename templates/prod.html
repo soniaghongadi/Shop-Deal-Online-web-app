@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename ='style_new.css') }}">
+</head>
+
+<body>
+    <div class="cont">
+
+        {% if product.author != current_user %}
+        <div>
+          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_prod', Product_id= product.id) }}">Update</a>
+          <!-- <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button> -->
+        </div>
+      {% endif %}
+        <tbody>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Type/Name</th>
+                        <th>Price of Product</th>
+                        <th>Product Details</th>
+                        <th>Product Images</th>
+                        <th>Seller Name</th>
+                        <th>Seller's Email ID</th>
+                        <th>Seller's Contact Number</th>
+                    </tr>
+                </thead>
+        
+                <tr>
+                    <td>{{ product.Product_name}}</td>
+                    <td>{{ product.Product_price}}</td>
+                    <td>{{ product.Prod_spec}}</td>
+                    <td>{{ product.seller_name}}</td>
+                    <td>{{ product.User_email }}</td>
+                    <td>{{ product.contact_num }}</td>
+                </tr>
+                
+                
+            </tbody>
+        </table>
+       
+    </div>
+
+</body>
+
+</html>
