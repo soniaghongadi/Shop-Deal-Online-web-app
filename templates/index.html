@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename ='style_new.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename ='style.css') }}">
     <title>Login - Register Form</title>
 </head>
 
@@ -37,7 +38,7 @@
                             <input type="password" class="login__input pass" placeholder="Password" name="password"
                                 required />
                         </div>
-                        <input type="submit" class="login__submit">
+                        <input type="submit" class="login__submit" value="Login">
                         <p class="login__signup">Don't have an account? &nbsp;<a href="/register">Sign up</a></p>
                     </div>
                 </form>
