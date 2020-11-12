@@ -18,6 +18,8 @@ app.config['SECRET_KEY'] = '7b072f7a918b7248a280e00fd328fc84'
 db = SQLAlchemy()
 db.init_app(app)
 
+REGISTER_PAGE = 'register.html' 
+
 # Database models
 class AddUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -92,23 +94,23 @@ def register():
     if request.method == "POST":
         if not request.form['username'] or not request.form['email'] or not request.form['password']:
             flash('Please enter all the fields')
-            return render_template('register.html')
+            return render_template(REGISTER_PAGE)
         else:
             register = AddUser(username= request.form['username'],email= request.form['email'],password= generate_password_hash(request.form['password']))
         
         if not validate_username(request.form['username']):
             flash('This username is already taken, please enter new one')
-            return render_template('register.html')
+            return render_template(REGISTER_PAGE)
         
         if not validate_email(request.form['email']):
             flash('This email is taken')
-            return render_template('register.html')
+            return render_template(REGISTER_PAGE)
 
         # Add to database 
         db.session.add(register)
         db.session.commit()
         return redirect(url_for('index'))
-    return render_template('register.html')
+    return render_template(REGISTER_PAGE)
 
 # Route to logput page
 @app.route('/logout')
