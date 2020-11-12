@@ -4,10 +4,13 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, ForeignKey, Table
 from wtforms.validators import ValidationError, Email
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_wtf.csrf import CSRFProtect
 
 
 # Creation of Flask instance
 app = Flask(__name__)
+csrf = CSRFProtect()
+csrf.init_app(app)
 
 # Database location 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///login.sqlite3'
