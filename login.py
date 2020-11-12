@@ -21,6 +21,7 @@ db = SQLAlchemy()
 db.init_app(app)
 
 REGISTER_PAGE = 'register.html' 
+ADDPRODUCT_PAGE = 'addproduct.html'
 
 # Database models
 class AddUser(db.Model):
@@ -128,7 +129,7 @@ def addproduct():
     if request.method == 'POST':
         if not request.form['Product_name'] or not request.form['Product_price'] or not request.form['Prod_spec'] or not request.form['seller_name'] or not request.form['User_email'] or not request.form['contact_num']:
             flash('Please enter all the fields')
-            return render_template('addproduct.html', product=product)
+            return render_template(ADDPRODUCT_PAGE, product=product)
         else: 
             products = Product(Product_name= request.form['Product_name'], Product_price= request.form['Product_price'] , Prod_spec=request.form['Prod_spec'],seller_name= request.form['seller_name'] , User_email= request.form['User_email'] , 
              contact_num= request.form['contact_num'])
@@ -137,7 +138,7 @@ def addproduct():
         db.session.add(products)
         db.session.commit()
         return redirect(url_for('show_all'))
-    return render_template('addproduct.html', product=product)
+    return render_template(ADDPRODUCT_PAGE, product=product)
 
 # Go to an individual product
 @app.route("/show_all/<int:Product_id>")
@@ -176,7 +177,7 @@ def update_prod(Product_id):
         return redirect(url_for('show_all'))
         # return redirect(url_for('prod', product_id = product.id))
 
-    return render_template('addproduct.html', product = product, title= 'Update product',legend = 'Update product')
+    return render_template(ADDPRODUCT_PAGE, product = product, title= 'Update product',legend = 'Update product')
 
 #look for a main module
 if __name__ == "__main__":
