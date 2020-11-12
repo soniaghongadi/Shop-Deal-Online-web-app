@@ -156,7 +156,7 @@ def delete_prod(product_id):
         db.session.delete(product)
         db.session.commit()
         return redirect(url_for('show_all'))  
-    except: 
+    except Exception: 
         return redirect(url_for('error_product404'))
 
 # Update product details 
