@@ -30,9 +30,10 @@
       {%- for message in get_flashed_messages() %}
       {{ message }}
       {%- endfor %}
-
+      
       <table class="table table-bordered table-dark" >
-         <caption>Product Details</caption>
+         <caption hidden> Product Details</caption> 
+         
          <thead class="thead-dark">
             <tr>
                <th id="prod_name">Product Type/Name</th>
@@ -47,7 +48,7 @@
          <tbody>
             {% for products in Product %}
             {% if user %}
-            <h3><a href="{{ url_for('idv_prod', Product_id= products.id ) }}">{{ products.Product_name}}<h6>Click here
+            <h3><a href="{{ url_for('idv_prod', product_id= products.id ) }}">{{ products.Product_name}}<h6>Click here
                      to update or delete the product</h6></a></h3>
             {% endif %}
             <tr>

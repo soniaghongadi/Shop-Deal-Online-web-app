@@ -13,9 +13,11 @@
 
 <body>
     <div class="cont">
-        <tbody>
+        
+            
             <table class="table table-bordered table-dark">
-                <caption>Product Details</caption>
+                <caption hidden>Product Details</caption>
+                <tbody>
                 <thead class="thead-dark">
                     <tr>
                         <th id="prod_name">Product Type/Name</th>
@@ -40,8 +42,8 @@
         </tbody>
         </table>
         <div>
-        <a class="btn btn-secondary  btn-lg" href="{{ url_for('update_prod', Product_id= product.id) }}">Update</a>
-            <a class="btn btn-danger btn-lg " href="{{ url_for('delete_prod', Product_id= product.id) }}"
+        <a class="btn btn-secondary  btn-lg" href="{{ url_for('update_prod', product_id= product.id) }}">Update</a>
+            <a class="btn btn-danger btn-lg " href="{{ url_for('delete_prod', product_id= product.id) }}"
                 onclick="myFunction()">Delete</a>
             <script>
                 function myFunction() {

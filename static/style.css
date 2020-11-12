@@ -549,4 +549,7 @@ table thead tr th {
   font-size: 13px;
 }
 
-
+caption {
+  padding: 10px;
+  caption-side: bottom;
+}

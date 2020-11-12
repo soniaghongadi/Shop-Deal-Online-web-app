@@ -4,11 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, ForeignKey, Table
 from wtforms.validators import ValidationError, Email
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_wtf.csrf import CSRFProtect
+
 
 # Creation of Flask instance
 app = Flask(__name__)
-csrf = CSRFProtect(app)
 
 # Database location 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///login.sqlite3'
@@ -141,16 +140,16 @@ def addproduct():
     return render_template(ADDPRODUCT_PAGE, product=product)
 
 # Go to an individual product
-@app.route("/show_all/<int:Product_id>")
-def idv_prod(Product_id):
-    product = Product.query.get_or_404(Product_id)
+@app.route("/show_all/<int:product_id>")
+def idv_prod(product_id):
+    product = Product.query.get_or_404(product_id)
     return render_template('prod.html', product = product)
 
 # Delete a product
-@app.route("/show_all/<int:Product_id>/delete")
-def delete_prod(Product_id):
+@app.route("/show_all/<int:product_id>/delete")
+def delete_prod(product_id):
     # Look for an id if exists 
-    product = Product.query.get_or_404(Product_id)
+    product = Product.query.get_or_404(product_id)
   
     try: 
         # Delete product from database
@@ -161,10 +160,10 @@ def delete_prod(Product_id):
         return redirect(url_for('error_product404'))
 
 # Update product details 
-@app.route("/show_all/<int:Product_id>/update" , methods=['GET', 'POST'])
-def update_prod(Product_id):
+@app.route("/show_all/<int:product_id>/update" , methods=['GET', 'POST'])
+def update_prod(product_id):
     # Look for an id if exists 
-    product = Product.query.get_or_404(Product_id)
+    product = Product.query.get_or_404(product_id)
     if request.method == 'POST':
         product.Product_name = request.form['Product_name']
         product.Product_price=  request.form['Product_price']
@@ -175,7 +174,6 @@ def update_prod(Product_id):
             
         db.session.commit()
         return redirect(url_for('show_all'))
-        # return redirect(url_for('prod', product_id = product.id))
 
     return render_template(ADDPRODUCT_PAGE, product = product, title= 'Update product',legend = 'Update product')
 
