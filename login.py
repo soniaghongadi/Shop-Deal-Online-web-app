@@ -171,7 +171,7 @@ def update_prod(Product_id):
             
         db.session.commit()
         return redirect(url_for('show_all'))
-        return redirect(url_for('prod', product_id = product.id))
+        # return redirect(url_for('prod', product_id = product.id))
 
     return render_template('addproduct.html', product = product, title= 'Update product',legend = 'Update product')
 
