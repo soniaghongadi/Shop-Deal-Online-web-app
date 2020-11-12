@@ -4,9 +4,11 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, ForeignKey, Table
 from wtforms.validators import ValidationError, Email
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_wtf.csrf import CSRFProtect
 
 # Creation of Flask instance
 app = Flask(__name__)
+csrf = CSRFProtect(app)
 
 # Database location 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///login.sqlite3'
@@ -121,9 +123,8 @@ def logout():
 # Add new products to database
 @app.route('/show_all/addproduct', methods=['GET', 'POST'])
 def addproduct(): 
-    # if 'user_email' in session:
     product = Product(Product_name="", Product_price="",Prod_spec="",seller_name="",User_email="",contact_num="")
-    # return redirect(url_for('show_all'))
+
     if request.method == 'POST':
         if not request.form['Product_name'] or not request.form['Product_price'] or not request.form['Prod_spec'] or not request.form['seller_name'] or not request.form['User_email'] or not request.form['contact_num']:
             flash('Please enter all the fields')
