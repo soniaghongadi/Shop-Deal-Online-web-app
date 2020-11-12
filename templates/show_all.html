@@ -16,24 +16,21 @@
       <div class="topnav">
          {% if user %}
          <a href="{{ url_for('addproduct') }}">Post Your Ad</a>
-        
+
          <a href="{{ url_for('logout') }}">Logout</a>
          {% else %}
          <a href="{{ url_for('login') }}">Login</a>
          <a href="{{ url_for('register') }}">Register</a>
          {% endif %}
 
-
-         <!-- <a href="{{ url_for('show_all') }}">Available products </a> -->
-
       </div>
       {%- for message in get_flashed_messages() %}
       {{ message }}
       {%- endfor %}
-      
-      <table class="table table-bordered table-dark" >
-         <caption hidden> Product Details</caption> 
-         
+
+      <table class="table table-bordered table-dark">
+         <caption hidden> Product Details</caption>
+
          <thead class="thead-dark">
             <tr>
                <th id="prod_name">Product Type/Name</th>
