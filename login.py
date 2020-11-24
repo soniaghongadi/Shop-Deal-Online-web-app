@@ -1,47 +1,25 @@
 # Imported libraries
 from flask import Flask,render_template,flash, redirect,url_for,session,logging,request
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String, ForeignKey, Table
 from wtforms.validators import ValidationError, Email
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf.csrf import CSRFProtect
-
+import boto3
+from boto3.dynamodb.conditions import Key, Attr
 
 # Creation of Flask instance
 app = Flask(__name__)
 csrf = CSRFProtect()
 csrf.init_app(app)
-
-# Database location 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///login.sqlite3'
-
+                    
 # Secret Key
 app.config['SECRET_KEY'] = '7b072f7a918b7248a280e00fd328fc84'
 
 # instance of database 
-db = SQLAlchemy()
-db.init_app(app)
+# db = SQLAlchemy()
+# db.init_app(app)
 
 REGISTER_PAGE = 'register.html' 
 ADDPRODUCT_PAGE = 'addproduct.html'
-
-# Database models
-class AddUser(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique= True,nullable =False)
-    email = db.Column(db.String(120), unique= True,nullable =False)
-    password = db.Column(db.String(60),nullable=False)
-    products= db.relationship('Product', backref = 'adduser', lazy = True)
-
-class Product(db.Model):
-    id= db.Column(db.Integer, primary_key=True)
-    Product_name = db.Column(db.String(20),nullable=False)
-    Product_price = db.Column(db.Integer, nullable= False)
-    Prod_spec = db.Column(db.Text, nullable=False)
-    seller_name = db.Column(db.String(20), nullable =False)
-    User_email = db.Column(db.String(120),  nullable=False)
-    contact_num= db.Column(db.Integer, nullable=False)
-    person_id = db.Column(db.Integer, db.ForeignKey('add_user.id'))
 
 # Route to home/login page 
 @app.route("/",methods=["GET", "POST"])
@@ -56,7 +34,8 @@ def login():
     
     # Validation for user's email and password 
     if request.method == "POST":
-        users= AddUser.query.filter_by(email= request.form['email']).first()
+        
+        # users= AddUser.query.filter_by(email= request.form['email']).first()
         if not users or not check_password_hash(users.password,request.form['password']):
             flash('Invalid username or password')
             return render_template('index.html')
@@ -97,6 +76,13 @@ def register():
 
     # Validation on user's details 
     if request.method == "POST":
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+        email = request.form['email']
+        password = request.form['password']
+        
+        table = dynamodb_resource.Table('userdata')
+        
         if not request.form['username'] or not request.form['email'] or not request.form['password']:
             flash('Please enter all the fields')
             return render_template(REGISTER_PAGE)
