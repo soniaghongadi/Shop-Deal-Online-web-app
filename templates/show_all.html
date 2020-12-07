@@ -16,7 +16,6 @@
       <div class="topnav">
          {% if user %}
          <a href="{{ url_for('addproduct') }}">Post Your Ad</a>
-
          <a href="{{ url_for('logout') }}">Logout</a>
          {% else %}
          <a href="{{ url_for('login') }}">Login</a>
@@ -33,6 +32,14 @@
 
          <thead class="thead-dark">
             <tr>
+               
+               {% if user %}
+                  <th id="edit_link">
+                     Edit
+                  </th>
+               {% endif %}
+
+               <th id="dept">Department</th>
                <th id="prod_name">Product Type/Name</th>
                <th id="prod_price">Price of Product</th>
                <th id="prod_spec">Product Details</th>
@@ -44,17 +51,19 @@
 
          <tbody>
             {% for products in Product %}
-            {% if user %}
-            <h3><a href="{{ url_for('idv_prod', product_id= products.id ) }}">{{ products.Product_name}}<h6>Click here
-                     to update or delete the product</h6></a></h3>
-            {% endif %}
             <tr>
-               <td>{{ products.Product_name}}</td>
+               <td>
+                {% if user %}
+                  <a href="{{ url_for('idv_prod', product_id= products.id ) }}">Edit</a>
+               {% endif %}
+               </td>
+               <td>{{ products.Department}}</td>
+               <td>{{ products.product_type}}</td>
                <td>{{ products.Product_price}}</td>
                <td>{{ products.Prod_spec}}</td>
-               <td>{{ products.seller_name}}</td>
-               <td>{{ products.User_email }}</td>
-               <td>{{ products.contact_num }}</td>
+               <td>{{ products.Seller_name}}</td>
+               <td>{{ products.Seller_Email}}</td>
+               <td>{{ products.Contact_num}}</td>
             </tr>
             {% endfor %}
          </tbody>

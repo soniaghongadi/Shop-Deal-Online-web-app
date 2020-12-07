@@ -77,22 +77,22 @@ def main():
     
     key_schema=[
         {
-            "AttributeName": "UserId",
+            "AttributeName": "email",
             "KeyType": "HASH"
         },
         {
-            'AttributeName': 'UserEmail',
+            'AttributeName': 'firstname',
             'KeyType': 'RANGE'
         }
     ]
     
     attribute_definitions=[
         {
-            "AttributeName": "UserId",
+            "AttributeName": "email",
             "AttributeType": "S"
         },
         {
-            "AttributeName": "UserEmail",
+            "AttributeName": "firstname",
             "AttributeType": "S"
         }
         
@@ -111,7 +111,7 @@ def main():
     
     key_schema=[
         {
-            "AttributeName": "ProductId",
+            "AttributeName": "id",
             "KeyType": "HASH"
         },
         {
@@ -122,7 +122,7 @@ def main():
     
     attribute_definitions=[
         {
-            "AttributeName": "ProductId",
+            "AttributeName": "id",
             "AttributeType": "S"
         },
         {
