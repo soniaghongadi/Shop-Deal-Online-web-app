@@ -38,6 +38,7 @@
                      Edit
                   </th>
                {% endif %}
+               <th id="iamge">Product Image</th>
 
                <th id="dept">Department</th>
                <th id="prod_name">Product Type/Name</th>
@@ -52,9 +53,16 @@
          <tbody>
             {% for products in Product %}
             <tr>
-               <td>
+               
                 {% if user %}
+                <td>
                   <a href="{{ url_for('idv_prod', product_id= products.id ) }}">Edit</a>
+                  
+               </td>
+               {% endif %}
+               <td>
+               {% if products.image_link %}
+                  <img src="{{ products.image_link}}" width="100" height="100">
                {% endif %}
                </td>
                <td>{{ products.Department}}</td>

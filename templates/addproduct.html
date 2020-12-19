@@ -17,7 +17,7 @@
             <div class="login">
                 <div class="login__check"></div>
                 <legend class="border-bottom mb-4">{{ legend }}</legend>
-                <form method="POST" action="">
+                <form method="POST" action="" enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <div class="login__form">
                          <div class="login__row">
@@ -41,10 +41,8 @@
                                 name="product_type" value="{{product.product_type}}"  />
                         </div>
                         <div class="login__row">
-
                             <input type="number" class="login__input pass" placeholder="Price of Product in Euros"
-                                name="Product_price" value="{{product.Product_price}}" 
-                                />
+                                name="Product_price" value="{{product.Product_price}}" />
                         </div>
                         <div class="login__row">
 
@@ -66,7 +64,12 @@
                             <input type="number" class="login__input pass" placeholder="Seller's Contact Number"
                                 name="Contact_num" value="{{product.Contact_num}}"  />
                         </div>
+                        
+                        <div class="login__row">
+                            <input type="file" class="login__input pass" placeholder="Product images" name="file" id="image" accept="image/x-png,image/gif,image/jpeg"/>
+                        </div>
                         <input type="submit" class="login__submit" value="Post Your Ad" />
+                        
                     </div>
                 </form>
             </div>
