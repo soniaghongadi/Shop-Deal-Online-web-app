@@ -22,11 +22,14 @@
          <a href="{{ url_for('register') }}">Register</a>
          {% endif %}
 
+      <div class="header">
+            <h1>Online Bidding Web Application</h1>
+         </div>
       </div>
       {%- for message in get_flashed_messages() %}
       {{ message }}
       {%- endfor %}
-
+      <h3 class="h3-TableTile">Available Products</h3>
       <table class="table table-bordered table-dark">
          <caption hidden> Product Details</caption>
 

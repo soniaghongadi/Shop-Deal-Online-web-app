@@ -11,6 +11,7 @@ from botocore.exceptions import ClientError
 import uuid
 from shopdeal_sns import ShopDealSNS
 from s3_utils import S3Utils
+from easy_password_generator import PassGen
 
 # Creation of Flask instance
 application = app = Flask(__name__)
@@ -30,7 +31,7 @@ ADDPRODUCT_PAGE = 'addproduct.html'
 SMS_ACTIVATE = True
 # https://awsasansck.beanastack.com
 # https://soniashop.net -> awsasansck.beanastack.com
-SITE_URL = "http://3.237.223.222:8080/" 
+SITE_URL = "http://3.228.3.196:8080/" 
 
 if SMS_ACTIVATE:
     a_publisher = ShopDealSNS()
@@ -147,15 +148,15 @@ def upload(request):
     if request.method == "POST":
         if 'file' not in request.files:
             print('File not found in upload request')
-            return ''
+            return False
         
         f = request.files['file']
         if f.filename == '':
             print('File name is empty')
-            return ''
+            return False
         if not f or not allowed_file(f.filename):
             print('File format is not allowed')
-            return ''
+            return False
         path = "{}/{}".format(UPLOAD_FOLDER, f.filename)
         f.save(path)
         print('upload complete')
@@ -168,6 +169,8 @@ def upload(request):
 # Add new products to database
 @app.route('/show_all/addproduct', methods=['GET', 'POST'])
 def addproduct(): 
+    if not 'user_email' in session:
+        return redirect(url_for('show_all'))
     if request.method == 'POST':
         product_id= uuid.uuid4().hex
         product_type = request.form['product_type']
@@ -199,19 +202,24 @@ def addproduct():
 @app.route("/show_all/<string:product_id>")
 def idv_prod(product_id):
     # product = Product.query.get_or_404(product_id)
+    user = False
+    if 'user_email' in session:
+        user = session['user_email']
     db_result = table_product.scan(
         FilterExpression=Attr("id").eq(product_id)
     )
     if db_result['Count']==0:
         return render_template('error_product404.html')
     parsed_product = dictToProduct(db_result['Items'][0])
-    return render_template('prod.html', product = parsed_product)
+    return render_template('prod.html', product = parsed_product, user=user)
 
 # Delete a product
 @app.route("/show_all/<string:product_id>/delete")
 def delete_prod(product_id):
     # Look for an id if exists 
     # product = Product.query.get_or_404(product_id)
+    if not 'user_email' in session:
+        return redirect(url_for('show_all'))
     db_result = table_product.scan(
         FilterExpression=Attr("id").eq(product_id)
     )
@@ -230,6 +238,8 @@ def delete_prod(product_id):
 @app.route("/show_all/<string:product_id>/update" , methods=['GET', 'POST'])
 def update_prod(product_id):
     # Look for an id if exists 
+    if not 'user_email' in session:
+        return redirect(url_for('show_all'))
     db_result = table_product.scan(
         FilterExpression=Attr("id").eq(product_id)
     )
@@ -243,14 +253,19 @@ def update_prod(product_id):
         Seller_name = request.form['Seller_name']
         Seller_Email = request.form['Seller_Email']
         Contact_num = request.form['Contact_num']
-        image_url=upload(request)
-        db_result = table_product.update_item(
-            Key={
-                'id': product_id,
-                'Department': db_result['Items'][0]['Department']
-            },
-            UpdateExpression="set Product_name=:pName, Product_price=:pPrice, Prod_spec=:pSpec, Seller_name=:pSname, Seller_Email=:pSemail, Contact_num=:pCnum, image_link=:pImageUrl",
-            ExpressionAttributeValues={
+        image_url= upload(request)
+        update_expression = "set Product_name=:pName, Product_price=:pPrice, Prod_spec=:pSpec, Seller_name=:pSname, Seller_Email=:pSemail, Contact_num=:pCnum"
+        expression_values = {
+                ':pName': product_type,
+                ':pPrice':Product_price, 
+                ':pSpec': Prod_spec, 
+                ':pSname': Seller_name,
+                ':pSemail': Seller_Email,
+                ':pCnum': Contact_num,
+        }
+        if image_url:
+            update_expression = "set Product_name=:pName, Product_price=:pPrice, Prod_spec=:pSpec, Seller_name=:pSname, Seller_Email=:pSemail, Contact_num=:pCnum, image_link=:pImageUrl"
+            expression_values = {
                 ':pName': product_type,
                 ':pPrice':Product_price, 
                 ':pSpec': Prod_spec, 
@@ -258,13 +273,26 @@ def update_prod(product_id):
                 ':pSemail': Seller_Email,
                 ':pCnum': Contact_num,
                 ':pImageUrl':image_url,
+             }
+            
+        db_result = table_product.update_item(
+            Key={
+                'id': product_id,
+                'Department': db_result['Items'][0]['Department']
             },
+            UpdateExpression=update_expression,
+            ExpressionAttributeValues=expression_values,
             ReturnValues="UPDATED_NEW"
         )
         return redirect(url_for('show_all'))
     parsed_product = dictToProduct(db_result['Items'][0])
     print(db_result['Items'][0])
     return render_template(ADDPRODUCT_PAGE, product = parsed_product, title= 'Update product',legend = 'Update product')
+    
+@app.route("/generate_password", methods=['GET'])
+def generate_password():
+    pwo = PassGen()
+    return pwo.generate()
 
 #look for a main module
 if __name__ == "__main__":

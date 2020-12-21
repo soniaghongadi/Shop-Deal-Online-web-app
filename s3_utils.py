@@ -1,18 +1,20 @@
-# source: https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-examples.html
-# the code included here is taken or adapted from the Amazon S3 examples available on Boto3 documentation
-
 import logging
 import boto3
 from botocore.exceptions import ClientError
+from botocore.config import Config
+import botocore
+import uuid
 
 class S3Utils:
     
     @staticmethod
     def get_S3_client(region=None):
+        config = Config(signature_version=botocore.UNSIGNED)
+        config.signature_version = botocore.UNSIGNED
         if region is None:
             s3_client = boto3.client('s3')
         else:
-            s3_client = boto3.client('s3', region_name=region)
+            s3_client = boto3.client('s3',config = Config(signature_version=botocore.UNSIGNED),  region_name=region)
         return s3_client
         
     @staticmethod
@@ -57,6 +59,12 @@ class S3Utils:
         return response
     
     
+
+    # get a UUID - URL safe, Base64
+    @staticmethod
+    def get_a_Uuid():
+        return uuid.uuid4().hex
+
     @staticmethod
     def upload_file(bucket, file_name, object_name=None):
         """Upload a file to an S3 bucket
@@ -74,14 +82,16 @@ class S3Utils:
         # Upload the file
         s3_client = S3Utils.get_S3_client()
         try:
-            response = s3_client.upload_file(file_name, bucket, object_name, ExtraArgs={'ACL': 'public-read'})
-            url = s3_client.generate_presigned_url(
+            random_hash = S3Utils.get_a_Uuid()
+            response = s3_client.upload_file(file_name, bucket, random_hash + object_name, ExtraArgs={'ACL': 'public-read'})
+            url_with_query = s3_client.generate_presigned_url(
                 ClientMethod='get_object',
                 Params={
                     'Bucket': bucket,
-                    'Key': object_name
+                    'Key': random_hash + object_name 
                 }
             )
+            url = url_with_query.split('?', 1)[0]
             return url
         except ClientError as e:
             logging.error(e)

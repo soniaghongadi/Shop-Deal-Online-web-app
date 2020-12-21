@@ -20,7 +20,8 @@
                 <tbody>
                 <thead class="thead-dark">
                     <tr>
-                     <th id="dept">Department</th>
+                   <th id="iamge">Product Image</th>
+                    <th id="dept">Department</th>
                    <th id="prod_name">Product Type/Name</th>
                    <th id="prod_price">Price of Product</th>
                    <th id="prod_spec">Product Details</th>
@@ -31,6 +32,11 @@
                 </thead>
 
                 <tr>
+                <td>
+               {% if product.image_link %}
+                  <img src="{{ product.image_link}}" width="100" height="100">
+               {% endif %}
+               </td>
                 <td>{{ product.Department}}</td>
                <td>{{ product.product_type}}</td>
                <td>{{ product.Product_price}}</td>
@@ -44,14 +50,15 @@
         </tbody>
         </table>
         <div>
-        <a class="btn btn-secondary  btn-lg" href="{{ url_for('update_prod', product_id= product.id) }}">Update</a>
-            <a class="btn btn-danger btn-lg " href="{{ url_for('delete_prod', product_id= product.id) }}"
-                onclick="myFunction()">Delete</a>
-            <script>
-                function myFunction() {
-                    alert("Do you want to delete the product");
-                }
-            </script>
+           {% if user %}
+                <a class="btn btn-secondary  btn-lg" href="{{ url_for('update_prod', product_id= product.id) }}">Update</a>
+                <a class="btn btn-danger btn-lg " href="{{ url_for('delete_prod', product_id= product.id) }}" onclick="myFunction()">Delete</a>
+                <script>
+                    function myFunction() {
+                        alert("Do you want to delete the product");
+                    }
+                </script>
+            {% endif %}
         </div>
 
     </div>

@@ -47,8 +47,15 @@
                         </div>
                         <div class="login__row">
 
-                            <input type="password" class="login__input pass" placeholder="Password" name="password"
+                            <input type="password" class="login__input pass" placeholder="Password" name="password" id="password_field"
                                 required />
+                            <input class="generate__button" id="passwordGenerateButton"
+                                type="button"
+                                value="Generate">
+                            <input class="generate__button" id="showPasswordButton"
+                                type="button"
+                                value="Show">
+
                         </div>
                         <input type="submit" class="login__submit" value ="Register">
                     </div>
@@ -56,6 +63,34 @@
             </div>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        function toggleVisiblity(){
+            inputField = '#password_field'
+            // get the attribute value
+            var type = $(inputField).attr("type"); 
+            // now test it's value
+            if( type === 'password' ){
+              $(inputField).attr("type", "text");
+            }else{
+              $(inputField).attr("type", "password");
+            } 
+        }
+        $('#passwordGenerateButton').click(function(){
+            $.get( "/generate_password", function( data ) {
+              console.log(data);
+              $('#password_field').val(data);
+            });
+        });
+        $("#showPasswordButton").mousedown(function(){
+          toggleVisiblity();
+        });
+        $("#showPasswordButton").mouseup(function(){
+          toggleVisiblity();
+        });
+    });
+    </script>
 </body>
 
 </html>

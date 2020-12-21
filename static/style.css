@@ -47,12 +47,12 @@ input, button {
 
 .demo {
   position: absolute;
-  top: 40%;
+  top: 30%;
   left: 50%;
-  margin-left: -15rem;
-  margin-top: -26.5rem;
+  margin-left: -20rem;
+  margin-top: -22.5rem;
   width: 40rem;
-  height: 62rem;
+  height: 82rem;
   /* overflow: hidden; */
 }
 
@@ -68,6 +68,8 @@ input, button {
   -webkit-transform: scale(1);
           transform: scale(1);
 }
+
+
 .login.inactive {
   opacity: 0;
   -webkit-transform: scale(1.1);
@@ -130,9 +132,9 @@ input, button {
   width: 22rem;
   height: 100%;
   padding-left: 1.5rem;
-  font-size: 1.5rem;
+  font-size: 2rem;
   background: transparent;
-  color: white;
+  color : white ;
 }
 .login__submit {
   position: relative;
@@ -197,6 +199,16 @@ input, button {
 .login__signup a {
   color: #fff;
   cursor: pointer;
+}
+
+.generate__button{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 5px 3px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
 }
 
 .app {
@@ -542,14 +554,28 @@ input, button {
 }
 
 table tbody tr td {
-  font-size: 12px;
+  font-size: 13px;
 }
 
 table thead tr th {
-  font-size: 13px;
+  font-size: 14px;
 }
 
 caption {
   padding: 10px;
   caption-side: bottom;
+}
+
+.header{
+  text-indent: 35%;
+  color: rgba(204, 214, 250, 0.938);
+  font-size: 20px;
+  padding: 14px 16px;
+}
+
+.h3-TableTile
+{
+  color: rgba(204, 214, 250, 0.938);
+  padding: 15px 18px;
+  text-align: left;
 }
